@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from 'antd';
 import { Stylesform } from './navbar.style';
 import { FaSchool, } from 'react-icons/fa';
@@ -18,6 +18,19 @@ export default function Form() {
     const [grade, setGrade] = useState('');
     const [submit, setSubmit] = useState(false);
 
+    useEffect(() => {
+        const getdata = localStorage.getItem('data');
+        console.log("getdata", getdata)
+    }, [])
+
+    const onSubmitFunction = () => {
+        setSubmit(true);
+        const data = {
+            name, roll, school, address, grade
+        }
+        localStorage.setItem('data', JSON.stringify(data));
+
+    }
 
     return (
         <Row>
@@ -54,12 +67,12 @@ export default function Form() {
                         <input type='text' name='Name' className='class text-center' value={grade} onChange={e => setGrade(e.target.value)} />
                     </div>
 
-                    <Button type="btn-generate" onClick={() => setSubmit(true)}>Submit</Button>
+                    <Button type="btn-generate" onClick={() => onSubmitFunction()}>Submit</Button>
                 </Stylesform>
 
             </Col>
             <Col span={6} offset={4}>
-            <h1>{submit}</h1>
+                <h1>{submit}</h1>
                 {submit ?
                     <Idcard name={name} address={address} grade={grade} roll={roll} /> : null}
             </Col>
